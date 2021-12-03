@@ -47,20 +47,28 @@ bot.on("voice", async (msg) => {
       const chatId = msg.chat.id;
       if (msg.hasOwnProperty("forward_from")) {
         console.log(
-          `First name: |${msg?.forward_from?.first_name}|; last name: |${msg?.forward_from?.last_name}|; id: |${msg?.forward_from?.id}|; username: |${msg?.forward_from?.username}| говорит: |${result}|`
+          `First name: |${msg.forward_from?.first_name}|; last name: |${msg.forward_from?.last_name}|; id: |${msg.forward_from.id}|; username: |${msg.forward_from?.username}| говорит: |${result}|`
         );
-        bot.sendMessage(
-          chatId,
-          `${msg.forvard_from?.first_name} ${msg.forvard_from?.last_name} говорит:\n${result}`
-        );
+        if (msg.forward_from.hasOwnProperty("last_name")) {
+          bot.sendMessage(
+            chatId,
+            `${msg.forward_from?.first_name} ${msg.forward_from?.last_name} говорит:\n${result}`
+          );
+        } else {
+          bot.sendMessage(chatId, `${msg.forward_from?.first_name}  говорит:\n${result}`);
+        }
       } else {
         console.log(
-          `First name: |${msg.from.first_name}|; last name: |${msg.from.last_name}|; id: |${msg.from.id}|; username: |${msg.from.username}| говорит: |${result}|`
+          `First name: |${msg.from?.first_name}|; last name: |${msg.from?.last_name}|; id: |${msg.from.id}|; username: |${msg.from?.username}| говорит: |${result}|`
         );
-        bot.sendMessage(
-          chatId,
-          `${msg.from?.first_name} ${msg.from?.last_name} говорит:\n${result}`
-        );
+        if (msg.from.hasOwnProperty("last_name")) {
+          bot.sendMessage(
+            chatId,
+            `${msg.from?.first_name} ${msg.from?.last_name} говорит:\n${result}`
+          );
+        } else {
+          bot.sendMessage(chatId, `${msg.from?.first_name}  говорит:\n${result}`);
+        }
       }
     } catch (error) {
       console.log("Error:", error);
